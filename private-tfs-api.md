@@ -1,6 +1,6 @@
-To retrieve the backlog for a team
+### To retrieve the backlog for a team
 
-project/team/_api/_backlog/payload?__v=5&level=Stories&includeParents=false
+> project/team/_api/_backlog/payload?__v=5&level=Stories&includeParents=false
 
 Retrieve the following information from the JSON:
 * queryResults.wiql            : the WI query used to retrieve the data
@@ -13,19 +13,20 @@ Retrieve the following information from the JSON:
 * queryResults.targetIds       : the list of child work items in the same order as the source IDs and link IDs
 
 
-To get users with a Test Manager licence
+### To get users with a Test Manager licence
 
-_apiusermanagement/GetAccountExtensionUsers?extensionId=ms.vss-testmanager-web&mkt=en-us
+> _apiusermanagement/GetAccountExtensionUsers?extensionId=ms.vss-testmanager-web&mkt=en-us
 
 Returns a JSON list of users
 
 
 
 
-To add users to the Test Manager licence
+### To add users to the Test Manager licence
 
-_apiusermanagement/AddMultipleUsersToExtension
-
+> _apiusermanagement/AddMultipleUsersToExtension
+ 
+```csharp
 foreach(var u in usersToAdd)
 {
     users.Add(new SerializableUser
@@ -42,13 +43,14 @@ var data = new Dictionary<string, string>
     ["extensionId"] = "ms.vss-testmanager-web",
     ["__RequestVerificationToken"] = context.RequestValidationToken
 };
+```
 
 
+### To remove users to the Test Manager licence
 
-To remove users to the Test Manager licence
+> _apiusermanagement/RemoveUserFromExtension
 
-_apiusermanagement/RemoveUserFromExtension
-
+```csharp
 var data = new List<KeyValuePair<string, string>>();
 foreach (var user in usersToRemove)
 {
@@ -56,11 +58,12 @@ foreach (var user in usersToRemove)
 }
 data.Add(new KeyValuePair<string, string>("extensionId", "ms.vss-testmanager-web"));
 data.Add(new KeyValuePair<string, string>("__RequestVerificationToken", context.RequestValidationToken));
+```
 
 
+### To get the security data necessary for the private API
 
-To get the security data necessary for the private API
-
+```csharp
 using (var handler = new HttpClientHandler { UseCookies = false })
 using (var client = new HttpClient(handler) { BaseAddress = new Uri(collectionOption.Value()) })
 {
@@ -89,3 +92,4 @@ using (var client = new HttpClient(handler) { BaseAddress = new Uri(collectionOp
                                                               .FirstOrDefault();
     }
 }
+```
